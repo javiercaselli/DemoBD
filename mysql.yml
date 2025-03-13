@@ -1,0 +1,23 @@
+services:
+  mysql-container:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  phpmyadmin-container:
+    image: phpmyadmin:latest
+    restart: always
+    depends_on:
+      - mysql-container
+    environment:
+      PMA_HOST: mysql-container
+    ports:
+      - "8080:80"
+# Si quisiéramos hacer lo mismo desde línea de comandos, sería así:
+# docker run -d --name mysql-container -e MYSQL_ROOT_PASSWORD 12345 -p 3306:3306 -v mysql-data:/var/lib/mysql mysql:latest
+# docker run -d --name phpmyadmin-container -link mysql-container:db -p 8080:80 phpmyadmin:latest
