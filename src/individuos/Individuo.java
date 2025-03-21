@@ -11,19 +11,19 @@ package individuos;
  */
 public class Individuo {
     // Propiedades
-    private Integer id;
+    private Long id;
     private String nombre;
     private String apellido1;
     private String apellido2;
-    private Integer progenitor1;
-    private Integer progenitor2;
+    private Long progenitor1;
+    private Long progenitor2;
 
     // Getters y setters
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -51,19 +51,19 @@ public class Individuo {
         this.apellido2 = apellido2;
     }
 
-    public Integer getProgenitor1() {
+    public Long getProgenitor1() {
         return progenitor1;
     }
 
-    public void setProgenitor1(Integer progenitor1) {
+    public void setProgenitor1(Long progenitor1) {
         this.progenitor1 = progenitor1;
     }
 
-    public Integer getProgenitor2() {
+    public Long getProgenitor2() {
         return progenitor2;
     }
 
-    public void setProgenitor2(Integer progenitor2) {
+    public void setProgenitor2(Long progenitor2) {
         this.progenitor2 = progenitor2;
     }
 
