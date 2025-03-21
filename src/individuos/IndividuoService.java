@@ -1,6 +1,8 @@
 package individuos;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import crud.CRUD;
@@ -26,8 +28,17 @@ public class IndividuoService implements CRUD<Individuo>{
 
     @Override
     public ArrayList<Individuo> query(String column, String value) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'query'");
+        // Valor de retorno
+        ArrayList<Individuo> individuos = new ArrayList<>();
+        String sql = "select * from individuos where " + column + " = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, value);
+        ResultSet rs = ps.executeQuery();
+        while(rs.next()){
+            // Añadimos cada individuo recuperado a la lista
+            individuos.add(mapResultSetToIndividuo(rs));
+        }
+        return individuos;
     }
 
     @Override
@@ -38,8 +49,24 @@ public class IndividuoService implements CRUD<Individuo>{
 
     @Override
     public ArrayList<Individuo> requestAll(String sortedBy, String direction) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'requestAll'");
+        // Valor de retorno
+        ArrayList<Individuo> individuos = new ArrayList<>();
+        String sql = "select * from individuos order by " + sortedBy + " " + direction;
+        
+        // Preparamos la query en forma de Prepared Statement (precompilada)
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        // Ejecutamos la query
+        ResultSet rs = ps.executeQuery();
+        
+        // Recorremos el conjunto de resultados de la query (ResultSet) y asignamos los valores de las columnas
+        // a un individuo en cada iteración
+        while(rs.next()){
+            // Añadimos cada individuo recuperado a la lista
+            individuos.add(mapResultSetToIndividuo(rs));
+        }
+        
+        return individuos;
     }
 
     @Override
@@ -70,5 +97,19 @@ public class IndividuoService implements CRUD<Individuo>{
     public boolean delete(long id) throws SQLException {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    }
+    
+    private Individuo mapResultSetToIndividuo(ResultSet rs) throws SQLException {
+        // Valor de retorno
+        Individuo individuo = new Individuo();
+        
+        individuo.setId(rs.getInt("id"));
+        individuo.setNombre(rs.getString("nombre"));
+        individuo.setApellido1(rs.getString("apellido1"));
+        individuo.setApellido2(rs.getString("apellido2"));
+        individuo.setProgenitor1(rs.getInt("progenitor1"));
+        individuo.setProgenitor2(rs.getInt("progenitor2"));
+        
+        return individuo;
     }
 }

@@ -1,9 +1,12 @@
 //TODO: Añadir imports
 //...
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import connectionpool.ConnectionPool;
+import individuos.Individuo;
 import individuos.IndividuoService;
 
 /** Personify
@@ -33,14 +36,27 @@ public interface Personify {
      * @return devuelve el valor introducido
      */
     public static int leerOpcion(){
-        return 0;
+        System.out.print("Seleccione una opcion: ");
+        int opcion = sc.nextInt();
+        return opcion;
     }
 
     /** TODO: listarIndividuos
      * Lista los individuos de la base de datos
      */
     public static void listarIndividuos(){
-        
+        try {
+            ArrayList<Individuo> individuos = service.requestAll("apellido1", "asc");
+            System.out.println("******* Listado de individuos *********");
+            System.out.println();
+
+            // Vamos imprimiendo los individuos
+            for (Individuo individuo : individuos) {
+                System.out.println(individuo);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /** TODO: anadirIndividuo
